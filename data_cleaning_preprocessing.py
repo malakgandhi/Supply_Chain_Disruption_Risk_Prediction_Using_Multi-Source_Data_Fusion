@@ -24,6 +24,7 @@ def find_outliers(data, col):
 # Load the GSCPI dataset
 gscpi = pd.read_csv('datasets/gscpi_data.csv')
 
+# Remove values for 
 gscpi.dropna(how='all')
 
 gscpi = gscpi[['Date', 'GSCPI']]
@@ -33,4 +34,10 @@ gscpi['Date'] = pd.to_datetime(gscpi['Date'], errors="coerce")
 gscpi['GSCPI'] = pd.to_numeric(gscpi['gscpi'], errors="coerce")
 
 gscpi.dropna(subset=['Date'])
+
+# Deal with the duplicates
+
+print(f"GSCPI duplicated dates: {gscpi['Date'].duplicated().sum()}")
+
+gscpi = gscpi.drop_duplicates(subset='Date', keep='last')
 
