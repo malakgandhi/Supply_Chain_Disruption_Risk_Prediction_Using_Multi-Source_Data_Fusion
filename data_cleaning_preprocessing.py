@@ -135,10 +135,15 @@ commodity_monthly = commodity[
     ]
 ]
 
-gscpi_monthly = gscpi[
+freight_monthly = freight[
     [
         "Month",
         "Freight_Prices",
         "Freight_Prices_Outlier",
     ]
 ]
+
+# Merge the monthly datasets
+monthly = pd.merge(gscpi_monthly, commodity_monthly, on='Month', how='inner')
+monthly = pd.merge(monthly, freight_monthly, on='Month', how='inner')
+
