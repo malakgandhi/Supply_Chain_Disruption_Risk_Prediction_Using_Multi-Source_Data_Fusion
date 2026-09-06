@@ -52,3 +52,18 @@ storm_data["DEATHS_DIRECT"] = storm_data["DEATHS_DIRECT"].fillna(0)
 Keep latitude and longitude data as unknown to prevent misclassification onto incorrect coordinates.
 '''
 
+# Create a severe disaster weather map
+severe_events = [
+    "Hurricane",
+    "Tropical Storm",
+    "Flood",
+    "Flash Flood",
+    "Storm Surge/Tide",
+    "High Wind",
+    "Thunderstorm Wind",
+    "Tornado",
+    "Blizzard",
+    "Winter Storm"
+]
+
+storm_data["SEVERE_EVENT"] = storm_data["EVENT_TYPE"].isin(severe_events).astype(int)
