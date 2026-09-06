@@ -118,3 +118,27 @@ freight = find_outliers(freight, 'Commodity_Index')
 gscpi["Month"] = (gscpi["Date"].dt.to_period("M"))
 commodity["Month"] = (commodity["Date"].dt.to_period("M"))
 freight["Month"] = (freight["Date"].dt.to_period("M"))
+
+gscpi_monthly = gscpi[
+    [
+        "Month",
+        "GSCPI",
+        "GSCPI_Outlier",
+    ]
+]
+
+commodity_monthly = commodity[
+    [
+        "Month",
+        "Commodity_Index",
+        "Commodity_Index_Outlier",
+    ]
+]
+
+gscpi_monthly = gscpi[
+    [
+        "Month",
+        "Freight_Prices",
+        "Freight_Prices_Outlier",
+    ]
+]
