@@ -41,3 +41,5 @@ print(f"GSCPI duplicated dates: {gscpi['Date'].duplicated().sum()}")
 
 gscpi = gscpi.drop_duplicates(subset='Date', keep='last')
 
+# Deal with missing values
+print(f"GSCPI missing values: {gscpi.isnull().sum()}")
