@@ -40,3 +40,7 @@ print("Number of duplicate Rows:",storm_data.duplicated().sum())
 
 storm_data = storm_data.drop_duplicates()
 storm_data = storm_data.drop_duplicates(subset="EVENT_ID")
+
+# Clean the date columns
+storm_data = pd.to_datetime(storm_data["BEGIN_DATE_TIME"], errors="coerce")
+
