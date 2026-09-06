@@ -25,7 +25,7 @@ def find_outliers(data, col):
 gscpi = pd.read_csv('datasets/gscpi_data.csv')
 
 # Remove values for 
-gscpi.dropna(how='all')
+gscpi = gscpi.dropna(how='all')
 
 gscpi = gscpi[['Date', 'GSCPI']]
 
@@ -33,7 +33,7 @@ gscpi = gscpi[['Date', 'GSCPI']]
 gscpi['Date'] = pd.to_datetime(gscpi['Date'], errors="coerce")
 gscpi['GSCPI'] = pd.to_numeric(gscpi['GSCPI'], errors="coerce")
 
-gscpi.dropna(subset=['Date'])
+gscpi = gscpi.dropna(subset=['Date'])
 
 # Deal with the duplicates
 
@@ -57,7 +57,7 @@ gscpi = find_outliers(gscpi, 'GSCPI')
 commodity = pd.read_csv('datasets/commodity.csv')
 
 # Remove values for 
-commodity.dropna(how='all')
+commodity = commodity.dropna(how='all')
 
 commodity = commodity[['Date', 'Commodity_Index']]
 
@@ -65,7 +65,7 @@ commodity = commodity[['Date', 'Commodity_Index']]
 commodity['Date'] = pd.to_datetime(commodity['Date'], errors="coerce")
 commodity['Commodity_Index'] = pd.to_numeric(commodity['Commodity_Index'], errors="coerce")
 
-commodity.dropna(subset=['Date'])
+commodity = commodity.dropna(subset=['Date'])
 
 # Deal with the duplicates
 print(f"Commodity duplicated dates: {commodity['Date'].duplicated().sum()}")
@@ -86,7 +86,7 @@ commodity = find_outliers(commodity, 'Commodity_Index')
 freight = pd.read_csv('datasets/freight.csv')
 
 # Remove values for 
-freight.dropna(how='all')
+freight = freight.dropna(how='all')
 
 freight = freight[['Date', 'Freight_Prices']]
 
@@ -97,7 +97,7 @@ freight.dropna(subset=['Date'])
 
 # Deal with the duplicates
 print(f"Freight duplicated dates: {freight['Date'].duplicated().sum()}")
-commodity = commodity.drop_duplicates(subset='Date', keep='last')
+freight = freight.drop_duplicates(subset='Date', keep='last')
 
 # Deal with missing values
 print(f"Freight missing values: {freight.isnull().sum()}")
@@ -149,7 +149,7 @@ print(f"\nMissing value after merging: {monthly_data.isnull().sum()}")
 num_cols = [
     "GSCPI",
     "Commodity_Index",
-    "Freight_Price"
+    "Freight_Prices"
 ]
 
 monthly_data[num_cols] = monthly_data[num_cols].interpolate()
