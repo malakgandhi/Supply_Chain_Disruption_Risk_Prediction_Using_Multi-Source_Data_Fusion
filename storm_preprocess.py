@@ -13,7 +13,7 @@ data = []
 
 for file in files:
     df = pd.read_csv(file, low_memory=False)
-    data = df.append(df)
+    data.append(df)
 
 # Combine all the years
 storm_data = pd.concat(data, ignore_index=True)
@@ -41,7 +41,7 @@ storm_data = storm_data.drop_duplicates()
 storm_data = storm_data.drop_duplicates(subset="EVENT_ID")
 
 # Clean the date columns
-storm_data = pd.to_datetime(storm_data["BEGIN_DATE_TIME"], errors="coerce")
+storm_data["BEGIN_DATE_TIME"] = pd.to_datetime(storm_data["BEGIN_DATE_TIME"], errors="coerce")
 
 # Handling missing values
 storm_data["INJURIES_DIRECT"] = storm_data["INJURIES_DIRECT"].fillna(0)
@@ -68,18 +68,18 @@ severe_events = [
 storm_data["SEVERE_EVENT"] = storm_data["EVENT_TYPE"].isin(severe_events).astype(int)
 
 # Convert date to week
-storm_data['week'] = storm_data["BEGIN_DATE_TIME"].dt.to_period("W-MON").apply(lambda x: x.stat_time)
+storm_data['Week'] = storm_data["BEGIN_DATE_TIME"].dt.to_period("W-MON").apply(lambda x: x.start_time)
 
 # Create weekly weather data
 weekly_weather = storm_data.groupby('Week').agg(
     Storm_Count = ("EVENT_ID", "count"),
-    Severe_Storm_Count = ("SEVERE_EVENT", "count"),
+    Severe_Storm_Count = ("SEVERE_EVENT", "sum"),
     Total_Injuries = ("INJURIES_DIRECT", "sum"),
     Total_Deaths = ("DEATHS_DIRECT", "sum")
 ).reset_index()
 
 # Create weather event flag
-weakly_weather["Weather_Event_Flag"] = (weekly_weather["Storm_Count"] > 0).astype(int)
+weekly_weather["Weather_Event_Flag"] = (weekly_weather["Storm_Count"] > 0).astype(int)
 
 # Final cleaning
 weekly_weather = weekly_weather.sort_values("Week")
