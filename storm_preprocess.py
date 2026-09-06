@@ -20,3 +20,15 @@ for file in files:
 storm_data = pd.concat(data, ignore_index=True)
 print("Original Shape:", storm_data.shape)
 
+# Keep required columns
+cols = [
+    "EVENT_ID",
+    "BEGIN_DATE_TIME",
+    "EVENT_TYPE",
+    "STATE",
+    "CZ_NAME",
+    "BEGIN_LAT",
+    "BEGIN_LON",
+    "INJURIES_DIRECT",
+    "DEATHS_DIRECT"
+]
