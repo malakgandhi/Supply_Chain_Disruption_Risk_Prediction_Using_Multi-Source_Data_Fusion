@@ -145,3 +145,12 @@ monthly = monthly.drop_duplicates(subset="Month")
 
 # Handle missing data after merging
 print(f"\nMissing value after merging: {monthly.isnull().sum()}")
+
+num_cols = [
+    "GSCPI",
+    "Commodity_Index",
+    "Freight_Price"
+]
+
+monthly[num_cols] = (monthly[num_cols].interpolate())
+
