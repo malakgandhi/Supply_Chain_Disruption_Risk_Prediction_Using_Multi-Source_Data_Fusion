@@ -1,0 +1,22 @@
+import pandas as pd
+import os
+
+# Load the 4 files
+
+files = [
+    "datasets/storm_events/storm_2020.csv",
+    "datasets/storm_events/storm_2021.csv",
+    "datasets/storm_events/storm_2022.csv",
+    "datasets/storm_events/storm_2023.csv"
+]
+
+data = []
+
+for file in files:
+    df = pd.read_csv(file, low_memory=False)
+    data = df.append(df)
+
+# Combine all the years
+storm_data = pd.concat(data, ignore_index=True)
+print("Original Shape:", storm_data.shape)
+
