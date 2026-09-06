@@ -48,3 +48,8 @@ gscpi = gscpi.sort_values("Date")
 
 gscpi['GSCPI'] = gscpi['GSCPI'].interpolate()
 
+# Deal with outliers
+gscpi = find_outliers(gscpi, 'GSCPI')
+
+# We avoid removing outliers as extreme GSCPI values may represent real supply-chain values
+
