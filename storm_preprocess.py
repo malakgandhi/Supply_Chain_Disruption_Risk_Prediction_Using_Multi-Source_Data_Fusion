@@ -1,5 +1,4 @@
 import pandas as pd
-import os
 
 # Load the 4 files
 
@@ -70,3 +69,12 @@ storm_data["SEVERE_EVENT"] = storm_data["EVENT_TYPE"].isin(severe_events).astype
 
 # Convert date to week
 storm_data['week'] = storm_data["BEGIN_DATE_TIME"].dt.to_period("W-MON").apply(lambda x: x.stat_time)
+
+# Create weekly weather data
+weekly_weather = storm_data.groupby('Week').agg(
+    Storm_Count = ("EVENT_ID", "count"),
+    Severe_Storm_Count = ("Severe Event", "count"),
+    Total_Injuries = ("INJURIES_DIRECT", "sum"),
+    Total_Deaths = ("DEATHS_DIRECT", "sum")
+).reset_index()
+
