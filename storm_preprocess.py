@@ -35,3 +35,8 @@ cols = [
 
 storm_data = storm_data[cols]
 
+# Remove duplicates
+print("Number of duplicate Rows:",storm_data.duplicated().sum())
+
+storm_data = storm_data.drop_duplicates()
+storm_data = storm_data.drop_duplicates(subset="EVENT_ID")
