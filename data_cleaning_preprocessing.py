@@ -142,3 +142,6 @@ monthly = pd.merge(monthly, freight_monthly, on='Month', how='inner')
 
 # Check duplicates after merging
 monthly = monthly.drop_duplicates(subset="Month")
+
+# Handle missing data after merging
+print(f"\nMissing value after merging: {monthly.isnull().sum()}")
