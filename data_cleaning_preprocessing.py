@@ -62,8 +62,8 @@ commodity.dropna(how='all')
 commodity = commodity[['Date', 'Commodity_Index']]
 
 # Convert data types of the attributes
-commodity['Date'] = pd.to_datetime(gscpi['Date'], errors="coerce")
-commodity['Commodity_Index'] = pd.to_numeric(gscpi['Commodity_Index'], errors="coerce")
+commodity['Date'] = pd.to_datetime(commodity['Date'], errors="coerce")
+commodity['Commodity_Index'] = pd.to_numeric(commodity['Commodity_Index'], errors="coerce")
 
 commodity.dropna(subset=['Date'])
 
@@ -83,3 +83,32 @@ commodity['GSCPI'] = commodity['GSCPI'].interpolate()
 # Deal with outliers
 commodity = find_outliers(commodity, 'Commodity_Index')
 
+# Load the commodity dataset
+freight = pd.read_csv('datasets/freight.csv')
+
+# Remove values for 
+freight.dropna(how='all')
+
+freight = freight[['Date', 'Freight_Price']]
+
+# Convert data types of the attributes
+freight['Date'] = pd.to_datetime(freight['Date'].astype(str), format="%Y.%m", errors="coerce")
+freight['Commodity_Index'] = pd.to_numeric(freight['Commodity_Index'], errors="coerce")
+
+freight.dropna(subset=['Date'])
+
+# Deal with the duplicates
+
+print(f"GSCPI duplicated dates: {freight['Date'].duplicated().sum()}")
+
+commodity = commodity.drop_duplicates(subset='Date', keep='last')
+
+# Deal with missing values
+print(f"GSCPI missing values: {freight.isnull().sum()}")
+
+freight = freight.sort_values("Date")
+
+freight['GSCPI'] = freight['GSCPI'].interpolate()
+
+# Deal with outliers
+freight = find_outliers(freight, 'Commodity_Index')
