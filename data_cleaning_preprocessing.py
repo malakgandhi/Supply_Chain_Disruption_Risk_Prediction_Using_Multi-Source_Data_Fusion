@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+# Create an outlier detection function
 def find_outliers(data, col):
     q1 = data[col].quantile(0.25)
     q3 = data[col].quantile(0.75)
@@ -20,12 +21,16 @@ def find_outliers(data, col):
 
     return data
 
-gscpi = pd.read_csv('data/gscpi_data.csv')
+# Load the GSCPI dataset
+gscpi = pd.read_csv('datasets/gscpi_data.csv')
 
-gscpi.dropna()
+gscpi.dropna(how='all')
 
 gscpi = gscpi[['Date', 'GSCPI']]
 
+# Convert data types of the attributes
 gscpi['Date'] = pd.to_datetime(gscpi['Date'], errors="coerce")
 gscpi['GSCPI'] = pd.to_numeric(gscpi['gscpi'], errors="coerce")
+
+gscpi.dropna(subset=['Date'])
 
