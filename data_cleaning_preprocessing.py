@@ -68,7 +68,6 @@ commodity['Commodity_Index'] = pd.to_numeric(commodity['Commodity_Index'], error
 commodity.dropna(subset=['Date'])
 
 # Deal with the duplicates
-
 print(f"GSCPI duplicated dates: {commodity['Date'].duplicated().sum()}")
 
 commodity = commodity.drop_duplicates(subset='Date', keep='last')
@@ -147,3 +146,4 @@ freight_monthly = freight[
 monthly = pd.merge(gscpi_monthly, commodity_monthly, on='Month', how='inner')
 monthly = pd.merge(monthly, freight_monthly, on='Month', how='inner')
 
+# Check duplicates after merging
