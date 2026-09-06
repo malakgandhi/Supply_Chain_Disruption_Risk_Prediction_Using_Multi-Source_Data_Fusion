@@ -83,7 +83,7 @@ commodity['Commodity_Index'] = commodity['Commodity_Index'].interpolate()
 commodity = find_outliers(commodity, 'Commodity_Index')
 
 # Load the commodity dataset
-freight = pd.read_csv('datasets/freight.csv')
+freight = pd.read_csv('datasets/freight.csv', dtype={'Date':'string'})
 
 # Remove values for 
 freight = freight.dropna(how='all')
