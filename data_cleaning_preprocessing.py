@@ -93,27 +93,21 @@ freight = freight[['Date', 'Freight_Price']]
 # Convert data types of the attributes
 freight['Date'] = pd.to_datetime(freight['Date'].astype(str), format="%Y.%m", errors="coerce")
 freight['Commodity_Index'] = pd.to_numeric(freight['Commodity_Index'], errors="coerce")
-
 freight.dropna(subset=['Date'])
 
 # Deal with the duplicates
-
 print(f"GSCPI duplicated dates: {freight['Date'].duplicated().sum()}")
-
 commodity = commodity.drop_duplicates(subset='Date', keep='last')
 
 # Deal with missing values
 print(f"GSCPI missing values: {freight.isnull().sum()}")
-
 freight = freight.sort_values("Date")
-
 freight['GSCPI'] = freight['GSCPI'].interpolate()
 
 # Deal with outliers
 freight = find_outliers(freight, 'Commodity_Index')
 
 # Create a month column for each dataset
-
 gscpi["Month"] = (gscpi["Date"].dt.to_period("M"))
 commodity["Month"] = (commodity["Date"].dt.to_period("M"))
 freight["Month"] = (freight["Date"].dt.to_period("M"))
@@ -147,3 +141,4 @@ monthly = pd.merge(gscpi_monthly, commodity_monthly, on='Month', how='inner')
 monthly = pd.merge(monthly, freight_monthly, on='Month', how='inner')
 
 # Check duplicates after merging
+monthly = monthly.drop_duplicates(subset="Month")
