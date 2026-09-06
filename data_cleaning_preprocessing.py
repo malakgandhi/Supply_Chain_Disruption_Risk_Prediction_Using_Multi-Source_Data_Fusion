@@ -92,7 +92,7 @@ freight = freight[['Date', 'Freight_Prices']]
 
 # Convert data types of the attributes
 freight['Date'] = pd.to_datetime(freight['Date'].astype(str), format="%Y.%m", errors="coerce")
-freight['Freight_Prices'] = pd.to_numeric(freight['Commodity_Index'], errors="coerce")
+freight['Freight_Prices'] = pd.to_numeric(freight['Freight_Prices'], errors="coerce")
 freight.dropna(subset=['Date'])
 
 # Deal with the duplicates
