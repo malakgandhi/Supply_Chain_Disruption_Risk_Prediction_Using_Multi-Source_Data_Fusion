@@ -43,3 +43,8 @@ gscpi = gscpi.drop_duplicates(subset='Date', keep='last')
 
 # Deal with missing values
 print(f"GSCPI missing values: {gscpi.isnull().sum()}")
+
+gscpi = gscpi.sort_values("Date")
+
+gscpi['GSCPI'] = gscpi['GSCPI'].interpolate()
+
