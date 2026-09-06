@@ -44,3 +44,11 @@ storm_data = storm_data.drop_duplicates(subset="EVENT_ID")
 # Clean the date columns
 storm_data = pd.to_datetime(storm_data["BEGIN_DATE_TIME"], errors="coerce")
 
+# Handling missing values
+storm_data["INJURIES_DIRECT"] = storm_data["INJURIES_DIRECT"].fillna(0)
+storm_data["DEATHS_DIRECT"] = storm_data["DEATHS_DIRECT"].fillna(0)
+
+'''
+Keep latitude and longitude data as unknown to prevent misclassification onto incorrect coordinates.
+'''
+
