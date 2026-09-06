@@ -163,3 +163,7 @@ threshold = gscpi_mean + 1.5 * gscpi_std
 print(f"\nHistorical GSCPI mean: {gscpi_mean}")
 print(f"\nHistorical GSCPI standard deviation: {gscpi_std}")
 print(f"\nHistorical threshold: {threshold}")
+
+# monthly disruption label
+monthly['Disruption'] = (monthly['GSCPI'] >= threshold).astype(int)
+
