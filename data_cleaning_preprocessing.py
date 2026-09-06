@@ -53,3 +53,33 @@ gscpi = find_outliers(gscpi, 'GSCPI')
 
 # We avoid removing outliers as extreme GSCPI values may represent real supply-chain values
 
+# Load the commodity dataset
+commodity = pd.read_csv('datasets/commodity.csv')
+
+# Remove values for 
+commodity.dropna(how='all')
+
+commodity = commodity[['Date', 'Commodity_Index']]
+
+# Convert data types of the attributes
+commodity['Date'] = pd.to_datetime(gscpi['Date'], errors="coerce")
+commodity['Commodity_Index'] = pd.to_numeric(gscpi['Commodity_Index'], errors="coerce")
+
+commodity.dropna(subset=['Date'])
+
+# Deal with the duplicates
+
+print(f"GSCPI duplicated dates: {commodity['Date'].duplicated().sum()}")
+
+commodity = commodity.drop_duplicates(subset='Date', keep='last')
+
+# Deal with missing values
+print(f"GSCPI missing values: {commodity.isnull().sum()}")
+
+commodity = commodity.sort_values("Date")
+
+commodity['GSCPI'] = commodity['GSCPI'].interpolate()
+
+# Deal with outliers
+commodity = find_outliers(commodity, 'Commodity_Index')
+
