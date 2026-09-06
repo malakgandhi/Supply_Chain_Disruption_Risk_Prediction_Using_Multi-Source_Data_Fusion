@@ -137,14 +137,14 @@ freight_monthly = freight[
 ]
 
 # Merge the monthly datasets
-monthly = pd.merge(gscpi_monthly, commodity_monthly, on='Month', how='inner')
-monthly = pd.merge(monthly, freight_monthly, on='Month', how='inner')
+monthly_data = pd.merge(gscpi_monthly, commodity_monthly, on='Month', how='inner')
+monthly_data = pd.merge(monthly_data, freight_monthly, on='Month', how='inner')
 
 # Check duplicates after merging
-monthly = monthly.drop_duplicates(subset="Month")
+monthly_data = monthly_data.drop_duplicates(subset="Month")
 
 # Handle missing data after merging
-print(f"\nMissing value after merging: {monthly.isnull().sum()}")
+print(f"\nMissing value after merging: {monthly_data.isnull().sum()}")
 
 num_cols = [
     "GSCPI",
@@ -152,7 +152,7 @@ num_cols = [
     "Freight_Price"
 ]
 
-monthly[num_cols] = monthly[num_cols].interpolate()
+monthly_data[num_cols] = monthly_data[num_cols].interpolate()
 
 # Create GSCPI disruption threshold
 gscpi_mean = gscpi['GSCPI'].mean()
@@ -165,5 +165,30 @@ print(f"\nHistorical GSCPI standard deviation: {gscpi_std}")
 print(f"\nHistorical threshold: {threshold}")
 
 # monthly disruption label
-monthly['Disruption'] = (monthly['GSCPI'] >= threshold).astype(int)
+monthly_data['Disruption'] = (monthly_data['GSCPI'] >= threshold).astype(int)
 
+# Conver monthly data to weekly data
+week_dates = pd.date_range(start='2020-01-01', end='2023-12-31')
+weekly_data = pd.DataFrame({"Week":week_dates})
+weekly_data['Month'] = weekly_data['Week'].dt.to_period("M")
+weekly_data = pd.merge(weekly_data, monthly_data, on="Month", how="left")
+
+# Remove missing values in the weekly data
+weekly_data[num_cols] = weekly_data[num_cols].ffill()
+
+# Final check for duplicates
+print(f"Duplicate weeks {weekly_data['Week'].duplicated().sum()}")
+weekly_data = weekly_data.drop_duplicates(subset="Week")
+
+# Final check for missing data
+print(f"Final missing values: {weekly_data.isnull().sum()}")
+
+# Display final data
+print(f"\nFinal Weekly Dataset\n{weekly_data.head(20)}")
+print(f"\nDataset shape: {weekly_data.shape}")
+print(f"\nDataset shape: {weekly_data["Disruption"].value_counts()}")
+
+# Save weekly data
+weekly_data.to_csv("cleaned_datasets/weekly_economic_data.csv", index=False)
+
+print("\nCleaned data saved successfully.")
