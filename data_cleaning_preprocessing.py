@@ -112,3 +112,9 @@ freight['GSCPI'] = freight['GSCPI'].interpolate()
 
 # Deal with outliers
 freight = find_outliers(freight, 'Commodity_Index')
+
+# Create a month column for each dataset
+
+gscpi["Month"] = (gscpi["Date"].dt.to_period("M"))
+commodity["Month"] = (commodity["Date"].dt.to_period("M"))
+freight["Month"] = (freight["Date"].dt.to_period("M"))
