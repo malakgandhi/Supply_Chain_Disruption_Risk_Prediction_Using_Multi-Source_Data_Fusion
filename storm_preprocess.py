@@ -32,3 +32,6 @@ cols = [
     "INJURIES_DIRECT",
     "DEATHS_DIRECT"
 ]
+
+storm_data = storm_data[cols]
+
