@@ -73,8 +73,17 @@ storm_data['week'] = storm_data["BEGIN_DATE_TIME"].dt.to_period("W-MON").apply(l
 # Create weekly weather data
 weekly_weather = storm_data.groupby('Week').agg(
     Storm_Count = ("EVENT_ID", "count"),
-    Severe_Storm_Count = ("Severe Event", "count"),
+    Severe_Storm_Count = ("SEVERE_EVENT", "count"),
     Total_Injuries = ("INJURIES_DIRECT", "sum"),
     Total_Deaths = ("DEATHS_DIRECT", "sum")
 ).reset_index()
 
+# Create weather event flag
+weakly_weather["Weather_Event_Flag"] = (weekly_weather["Storm_Count"] > 0).astype(int)
+
+# Final cleaning
+weekly_weather = weekly_weather.sort_values("Week")
+
+print("\nMissing Values:", weekly_weather.isnull().sum())
+print("\nFinal Shape:", weekly_weather.shape)
+print("\nFirst 10 rows:\n", weekly_weather.head(10))
