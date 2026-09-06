@@ -87,3 +87,8 @@ weekly_weather = weekly_weather.sort_values("Week")
 print("\nMissing Values:", weekly_weather.isnull().sum())
 print("\nFinal Shape:", weekly_weather.shape)
 print("\nFirst 10 rows:\n", weekly_weather.head(10))
+
+# Create a cleaned data
+weekly_weather.to_csv("cleaned_data/weekly_storm_data_weather.csv", index=False)
+
+print("\nStorm data processing completed!")
