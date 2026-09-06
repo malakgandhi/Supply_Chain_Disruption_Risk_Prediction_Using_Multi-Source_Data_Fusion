@@ -189,6 +189,6 @@ print(f"\nDataset shape: {weekly_data.shape}")
 print(f"\nDataset shape: {weekly_data["Disruption"].value_counts()}")
 
 # Save weekly data
-weekly_data.to_csv("cleaned_datasets/weekly_economic_data.csv", index=False)
+weekly_data.to_csv("cleaned_data/weekly_economic_data.csv", index=False)
 
 print("\nCleaned data saved successfully.")
