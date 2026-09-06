@@ -67,3 +67,6 @@ severe_events = [
 ]
 
 storm_data["SEVERE_EVENT"] = storm_data["EVENT_TYPE"].isin(severe_events).astype(int)
+
+# Convert date to week
+storm_data['week'] = storm_data["BEGIN_DATE_TIME"].dt.to_period("W-MON").apply(lambda x: x.stat_time)
