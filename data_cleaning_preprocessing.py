@@ -152,5 +152,14 @@ num_cols = [
     "Freight_Price"
 ]
 
-monthly[num_cols] = (monthly[num_cols].interpolate())
+monthly[num_cols] = monthly[num_cols].interpolate()
 
+# Create GSCPI disruption threshold
+gscpi_mean = gscpi['GSCPI'].mean()
+gscpi_std = gscpi['GSCPI'].std()
+
+threshold = gscpi_mean + 1.5 * gscpi_std
+
+print(f"\nHistorical GSCPI mean: {gscpi_mean}")
+print(f"\nHistorical GSCPI standard deviation: {gscpi_std}")
+print(f"\nHistorical threshold: {threshold}")
