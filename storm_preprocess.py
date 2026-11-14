@@ -6,7 +6,9 @@ files = [
     "datasets/storm_events/storm_2020.csv",
     "datasets/storm_events/storm_2021.csv",
     "datasets/storm_events/storm_2022.csv",
-    "datasets/storm_events/storm_2023.csv"
+    "datasets/storm_events/storm_2023.csv",
+    "datasets/storm_events/storm_2024.csv",
+    "datasets/storm_events/storm_2025.csv"
 ]
 
 data = []
@@ -47,9 +49,8 @@ storm_data["BEGIN_DATE_TIME"] = pd.to_datetime(storm_data["BEGIN_DATE_TIME"], er
 storm_data["INJURIES_DIRECT"] = storm_data["INJURIES_DIRECT"].fillna(0)
 storm_data["DEATHS_DIRECT"] = storm_data["DEATHS_DIRECT"].fillna(0)
 
-'''
-Keep latitude and longitude data as unknown to prevent misclassification onto incorrect coordinates.
-'''
+
+# Keep latitude and longitude data as unknown to prevent misclassification onto incorrect coordinates.
 
 # Create a severe disaster weather map
 severe_events = [

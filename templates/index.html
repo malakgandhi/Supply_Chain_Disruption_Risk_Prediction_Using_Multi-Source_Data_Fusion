@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weekly Disruption Forecast</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h1>Weekly Disruption Forecast</h1>
+  <p class="note">Historical test predictions, not a live forecast.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Forecast week</th>
+        <th>Predicted risk</th>
+        <th>Actual result</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ forecast_rows }}
+    </tbody>
+  </table>
+</body>
+</html>
